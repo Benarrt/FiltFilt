@@ -19,17 +19,18 @@ if delim is None:
 else:
     roi = ppg_data[:,column]
 
-firf = genfromtxt("../firwin")[:]
+b = genfromtxt("./bCoeff")
+a = genfromtxt("./aCoeff")
 dt_start = datetime.now()
-filtered = filtfilt(firf, 1, roi)
+filtered = filtfilt(b, a, roi)
 dt_end = datetime.now()
 
 print("Python filtfilt took ", (dt_end.microsecond - dt_start.microsecond)/1000, "ms")
-demoFiltFilt = genfromtxt("../demoFiltFilt")[:]
+demoFiltFilt = genfromtxt("./demoFiltFilt")[:]
 fig = figure(figsize=(24,4))
 plot(roi, label="Original")
 plot(filtered, label="Python Filtered")
 plot(demoFiltFilt, label="C++ Filtered")
 legend()
 fig.savefig('../filtfilt.pdf')
-print("Plot was saved to ../filtfilt.pdf")
+print("Plot was saved to ./filtfilt.pdf")

@@ -2,3 +2,6 @@ build/*
 eigen-3.4.0/*
 .vscode/settings.json
 demo/build/*
+demo/aCoeff
+demo/bCoeff
+demo/demoFiltFilt

@@ -103,21 +103,37 @@ int main(int argc, char **argv)
 	std::vector<double> b;
 	std::vector<double> a{1};
 
-	int res = system("python3 ../firwin.py");
-	std::ifstream firwinFile;
-	firwinFile.open("../firwin");
-	if(!firwinFile.is_open())
+	int res = system("python3 ./genCoeff.py");
+	std::ifstream bCoeffFile;
+	bCoeffFile.open("./bCoeff");
+	if(!bCoeffFile.is_open())
 	{
-		std::cout << "File " << "../firwin" << " not found" << std::endl;
+		std::cout << "File " << "./bCoeff" << " not found" << std::endl;
 		return 0;
 	}
 
-	while (getline(firwinFile, dataRow))
+	while (getline(bCoeffFile, dataRow))
 	{
 		b.push_back(std::stod(dataRow));
 	}
 
-	firwinFile.close();
+	bCoeffFile.close();
+
+	std::ifstream aCoeffFile;
+	aCoeffFile.open("./aCoeff");
+	if(!aCoeffFile.is_open())
+	{
+		std::cout << "File " << "./aCoeff" << " not found" << std::endl;
+		return 0;
+	}
+
+	while (getline(aCoeffFile, dataRow))
+	{
+		a.push_back(std::stod(dataRow));
+		std::cout << a.back() << std::endl;
+	}
+
+	aCoeffFile.close();
 
 	std::vector<double> outY;
 	Digital::FiltFilt sdfiltfilt;
@@ -129,10 +145,10 @@ int main(int argc, char **argv)
 	std::cout << "C++ filtfilt took " << elapsed_time_ms << " ms" << std::endl;
 	
 	std::ofstream outYFile;
-	outYFile.open("../demoFiltFilt");
+	outYFile.open("./demoFiltFilt");
 	if(!outYFile.is_open())
 	{
-		std::cout << "File " << "../demoFiltFilt" << " not found" << std::endl;
+		std::cout << "File " << "./demoFiltFilt" << " not found" << std::endl;
 		return 0;
 	}
 
@@ -153,7 +169,7 @@ int main(int argc, char **argv)
 
 	outYFile.close();
 
-	res = system(std::string("python3 ../filtfilt.py " + filename + " " + delim + " " + (column == 0 ? "" : std::to_string(column))).c_str());
+	res = system(std::string("python3 ./filtfilt.py " + filename + " " + delim + " " + (column == 0 ? "" : std::to_string(column))).c_str());
 
 	return res;
 }
