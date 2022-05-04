@@ -130,7 +130,6 @@ int main(int argc, char **argv)
 	while (getline(aCoeffFile, dataRow))
 	{
 		a.push_back(std::stod(dataRow));
-		std::cout << a.back() << std::endl;
 	}
 
 	aCoeffFile.close();
